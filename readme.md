@@ -1,3 +1,3 @@
 # Ucup Shoes | Flask Project
 
-![Ucup Shoes](example.png)
+![Ucup Shoes](example.PNG)
