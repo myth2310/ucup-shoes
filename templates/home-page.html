@@ -1,11 +1,33 @@
 {% extends 'layouts/base.html' %}
 
-{% block title %} Ini Halaman Homepage {% endblock %}
+{% block title %} Halaman Homepage {% endblock %}
 
 {% block content %}
 
-<h1>Ini adalah Halaman Homepage</h1>
+<h1>Ini Halaman Homepage</h1>
 
-{% include'layouts/component/card.html' %}
+<table border="1" id="myTable">
+  <thead>
+    <tr>
+      <td>Nama Product</td>
+      <td>Image</td>
+      <td>Price</td>
+      <td>Catagory</td>
+      <td>Stok</td>
+    </tr>
+  </thead>
 
-{% endblock%}
+  <tbody>
+    {% for product in product %}
+    <tr>
+      <td>{{ product[1] }}</td>
+      <td><img src="{{ product[2] }}" width="100px" alt=""></td>
+      <td>{{ product[3] }}</td>
+      <td>{{ product[6] }}</td>
+      <td>{{ 'Tersedia' if product[5] == True else 'Tidak Tersedia' }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}

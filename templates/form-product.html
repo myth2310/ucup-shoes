@@ -1,0 +1,18 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Halaman Form Product {% endblock %}
+
+{% block content %}
+
+<h3>Form Product | Ucup Shoes</h3>
+
+<form action="/add-product" method="post">
+    <input type="text" name="name_product" placeholder="Masukan Nama Product">
+    <input type="text" name="image_url" placeholder="Masukan URL Image">
+    <input type="number" name="price" placeholder="Masukan Harga">
+    <input type="text" name="category" placeholder="Masukan Category">
+    <input type="text" name="in_stok" placeholder="Masukan Stok">
+    <button type="submit">Simpan data</button>
+</form>
+
+{% endblock %}

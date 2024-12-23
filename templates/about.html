@@ -1,30 +1,33 @@
-<h1>Selamat Datang, {{ myname }} </h1>
-<p>Umur saya : {{ myage }} Tahun</p>
+<h1>Selamat Datang, {{ myname }}!</h1>
+<h4>Umur Eka : {{ myage }} Tahun</h4>
 
-<p>{{ mybuah[1] }}</p>
+
+<p>{{ buah }}</p>
+
 
 <ul>
-    {% if mybuah %}
-        {% for name in mybuah %}
-        <li>{{ name }}</li>
+    {% if buah %}
+        {% for name in buah %}
+            <li>{{ name }}</li>
         {% endfor %}
     {% else %}
-        <p>Tidak ada data didalam list</p>
+        <p>Tidak ada data buah</p>
     {% endif %}
 </ul>
 
 {% if myage >= 17 %}
-<p>Dia Dewasa</p>
+    <p>Dia Dewasa</p>
 {% else %}
-<p>Dia Anak-anak</p>
+    <p>Dia Anak-anak</p>
 {% endif %}
 
-{% for product in product %}
-<p>- {{ product.name|upper }}, {{ product.price }},
-    {% if product.stok == True %}
-        Tersedia
+{% for data in product %}
+<p>{{ data.name }}, {{ data.price }}, 
+
+    {% if data.stok == True %}
+    Tersedia
     {% else %}
-        Tidak Tersedia
+    Tidak Tersedia
     {% endif %}
 </p>
 {% endfor %}
