@@ -1,4 +1,4 @@
-from flask import Flask, render_template,request, redirect,url_for,jsonify
+from flask import Flask, render_template,request, redirect,url_for,jsonify,flash
 from flask_mysqldb import MySQL
 
 app = Flask(__name__)
@@ -8,7 +8,7 @@ app.secret_key = 'Ucup Store'
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = ''
-app.config['MYSQL_DB'] = 'web1_3d'
+app.config['MYSQL_DB'] = 'web1_3e'
 
 mysql = MySQL(app)
 
@@ -84,7 +84,21 @@ def homepage():
 
 @app.route('/form-product')
 def form_add_product():
-    return render_template('form-product.html')
+    cur = mysql.connection.cursor()
+    query = 'SELECT * FROM category'
+    cur.execute(query)
+    category = cur.fetchall()
+    return render_template('form-product.html', category=category)
+
+
+
+
+
+
+
+
+
+
 
 @app.route('/add-product', methods=['POST'])
 def add_product():
@@ -95,10 +109,15 @@ def add_product():
     category = request.form['category']
     in_stok = request.form['in_stok']
 
+    if not name_product or len(name_product) < 2:
+        flash('Inputan name product Harus diisi','warning')
+
     # Menyimpan data ke tabel
     cur = mysql.connection.cursor()
-    query = 'INSERT INTO product VALUES (%s, %s, %s, %s, %s)'
+    query = 'INSERT INTO product(name_product, image_url, price, category, in_stok) VALUES (%s, %s, %s, %s, %s)'
     cur.execute(query,(name_product, image_url, price, category, in_stok))
     mysql.connection.commit()
 
-    return 
+    # return jsonify({'message' : 'Data Berhasil disimpan'})
+    flash('Data Berhasil disimpan','success')
+    return redirect('/homepage')

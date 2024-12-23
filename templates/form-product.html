@@ -7,11 +7,25 @@
 <h3>Form Product | Ucup Shoes</h3>
 
 <form action="/add-product" method="post">
-    <input type="text" name="name_product" placeholder="Masukan Nama Product">
-    <input type="text" name="image_url" placeholder="Masukan URL Image">
-    <input type="number" name="price" placeholder="Masukan Harga">
-    <input type="text" name="category" placeholder="Masukan Category">
-    <input type="text" name="in_stok" placeholder="Masukan Stok">
+    <input type="text" name="name_product" placeholder="Masukan Nama Product" required>
+    <input type="text" name="image_url" placeholder="Masukan URL Image" required>
+    <input type="number" name="price" placeholder="Masukan Harga" required>
+
+    <select name="category" required>
+        <option value="">-- Pilih Category --</option>
+        {% for category in category %}
+            <option value="{{ category[0] }}">{{ category[1] }}</option>
+        {% endfor %}
+    </select>
+
+    <select name="in_stok" required>
+        <option value="">-- Pilih Stok --</option>
+        <option value="1">Tersedia</option>
+        <option value="0">Tidak Tersedia</option>
+    </select>
+
+    <!-- <input type="number" name="category" placeholder="Masukan Category">
+    <input type="number" name="in_stok" placeholder="Masukan Stok"> -->
     <button type="submit">Simpan data</button>
 </form>
 
