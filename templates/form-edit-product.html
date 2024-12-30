@@ -1,0 +1,31 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Halaman Form Edit Product {% endblock %}
+
+{% block content %}
+
+<h3>Form Edit Product | Ucup Shoes</h3>
+<form action="/edit-product/{{ product[0] }}" method="post">
+    <input type="text" value="{{ product[1] }}"  name="name_product" placeholder="Masukan Nama Product">
+    <input type="text" value="{{ product[2] }}"  name="image_url" placeholder="Masukan Image URL">
+    <input type="number" value="{{ product[3] }}"  name="price" placeholder="Masukan Harga">
+
+    <select name="category" id="">
+        <option value="">{{ product[4] }}</option>
+        {% for category in category %}
+            <option value="{{ category[0]  }}">{{ category[1]  }}</option>
+        {% endfor %}
+       
+    </select>
+
+    <select name="in_stok" id="">
+        <option value="">{{ product[5] }}</option>
+        <option value="1">Tersedia</option>
+        <option value="0">Tidak Tersedia</option>
+    </select>
+
+    <button type="submit">Edit Data</button>
+</form>
+<br>
+
+{% endblock %}

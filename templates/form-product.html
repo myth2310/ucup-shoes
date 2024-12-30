@@ -5,28 +5,27 @@
 {% block content %}
 
 <h3>Form Product | Ucup Shoes</h3>
-
 <form action="/add-product" method="post">
-    <input type="text" name="name_product" placeholder="Masukan Nama Product" required>
-    <input type="text" name="image_url" placeholder="Masukan URL Image" required>
-    <input type="number" name="price" placeholder="Masukan Harga" required>
+    <input type="text" name="name_product" placeholder="Masukan Nama Product">
+    <input type="text" name="image_url" placeholder="Masukan Image URL">
+    <input type="number" name="price" placeholder="Masukan Harga">
 
-    <select name="category" required>
+    <select name="category" id="">
         <option value="">-- Pilih Category --</option>
         {% for category in category %}
-            <option value="{{ category[0] }}">{{ category[1] }}</option>
+            <option value="{{ category[0]  }}">{{ category[1]  }}</option>
         {% endfor %}
+       
     </select>
 
-    <select name="in_stok" required>
+    <select name="in_stok" id="">
         <option value="">-- Pilih Stok --</option>
         <option value="1">Tersedia</option>
         <option value="0">Tidak Tersedia</option>
     </select>
 
-    <!-- <input type="number" name="category" placeholder="Masukan Category">
-    <input type="number" name="in_stok" placeholder="Masukan Stok"> -->
-    <button type="submit">Simpan data</button>
+    <button type="submit">Simpan Data</button>
 </form>
+<br>
 
 {% endblock %}

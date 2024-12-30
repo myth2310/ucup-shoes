@@ -81,7 +81,6 @@ def homepage():
     # return jsonify(product)
     return render_template('home-page.html',product=product)
 
-
 @app.route('/form-product')
 def form_add_product():
     cur = mysql.connection.cursor()
@@ -90,17 +89,7 @@ def form_add_product():
     category = cur.fetchall()
     return render_template('form-product.html', category=category)
 
-
-
-
-
-
-
-
-
-
-
-@app.route('/add-product', methods=['POST'])
+@app.route('/add-product', methods=['post'])
 def add_product():
     # Request data dari form
     name_product = request.form['name_product']
@@ -109,15 +98,65 @@ def add_product():
     category = request.form['category']
     in_stok = request.form['in_stok']
 
-    if not name_product or len(name_product) < 2:
-        flash('Inputan name product Harus diisi','warning')
+    # Validasi Data
+    if not name_product:
+        flash('Name product harus diisi','error')
+        return redirect('/homepage')
 
-    # Menyimpan data ke tabel
+    # Query Menyimpan ke tabel
     cur = mysql.connection.cursor()
-    query = 'INSERT INTO product(name_product, image_url, price, category, in_stok) VALUES (%s, %s, %s, %s, %s)'
-    cur.execute(query,(name_product, image_url, price, category, in_stok))
+    query = ''' INSERT INTO product(name_product,image_url,price,category,in_stok) 
+                VALUES (%s, %s, %s, %s,%s)
+            '''
+    cur.execute(query, (name_product, image_url, price, category, in_stok))
     mysql.connection.commit()
 
-    # return jsonify({'message' : 'Data Berhasil disimpan'})
     flash('Data Berhasil disimpan','success')
+    return redirect('/homepage')
+
+
+@app.route('/form-edit-product/<int:id>')
+def form_edit_product(id):
+    cur = mysql.connection.cursor()
+    query = 'SELECT * FROM product WHERE id = %s'
+    cur.execute(query,[id])
+    product = cur.fetchone()
+
+    query = 'SELECT * FROM category'
+    cur.execute(query)
+    category = cur.fetchall()
+    # return jsonify(product)
+    return render_template('form-edit-product.html', product=product, category=category)
+
+@app.route('/edit-product/<int:id>', methods=['post'])
+def edit_product(id):
+    # Request data dari form
+    name_product = request.form['name_product']
+    image_url = request.form['image_url']
+    price = request.form['price']
+    category = request.form['category']
+    in_stok = request.form['in_stok']
+
+    # Query Menyimpan ke tabel
+    cur = mysql.connection.cursor()
+    query = ''' UPDATE product SET
+                name_product = %s,
+                image_url = %s,
+                price = %s,
+                category = %s,
+                in_stok = %s
+                WHERE id = %s
+            '''
+    cur.execute(query, (name_product, image_url, price, category, in_stok, id))
+    mysql.connection.commit()
+    flash('Data Berhasil diedit','success')
+    return redirect('/homepage')
+
+@app.route('/delete-product/<int:id>', methods=['get'])
+def delete_product(id):
+    cur = mysql.connection.cursor()
+    query = 'DELETE FROM product WHERE id = %s'
+    cur.execute(query,[id])
+    mysql.connection.commit()
+    flash('Data berhasil dihapus','success')
     return redirect('/homepage')
